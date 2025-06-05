@@ -29,12 +29,29 @@ This Python script analyzes your Google Maps Timeline data (Location History) to
         * Restrict the API key to only allow the "Geocoding API".
         * Optionally, restrict it to your IP address if running locally, or by HTTP referrers/app restrictions if applicable.
         * **Keep your API key secure and do not commit it to public repositories.**
-3.  **Google Timeline Data (Location History)**:
-    * Go to [Google Takeout](https://takeout.google.com/).
-    * Deselect all products ("Deselect all").
-    * Scroll down and select **"Timeline"**. Click on Multiple Formats and ensure the format is set to **JSON** for each option, where possible.
-    * Proceed to create and download the export.
-    * Once downloaded and unzipped, you will find your location data. If you selected only Location History, the main file is often directly named `Records.json`. If it's part of a larger takeout, it's typically located in `Takeout/Location History/Semantic Location History/YYYY_MONTH.json` or a single `Records.json` under `Takeout/Location History/`. You need the JSON file containing `timelineObjects`. For this script, it's easiest if you consolidate monthly files into a single `Records.json` or use the overall `Records.json` if provided. **The script expects a single JSON file path.**
+3.  **Google Timeline Data (Location History JSON file)**:
+    * **Primary Method: Exporting from your Android Device**
+        * Google Timeline data is now primarily stored on your Android device. You'll need to export it directly from the Google Maps app.
+        * **Steps (may vary slightly depending on your Android version and Google Maps app version):**
+            1.  Open the **Google Maps** app on your Android device.
+            2.  Tap on your **profile picture** or initial in the top right corner.
+            3.  Select "**Your Timeline**."
+            4.  In the Timeline view, tap the **three vertical dots (⋮)** for more options (usually in the top right).
+            5.  Select "**Settings and privacy**."
+            6.  Scroll down to the "Timeline data" or "Location data" section.
+            7.  Look for an option like "**Export Timeline data**" or "**Download a copy of your data**".
+            8.  Follow the prompts to export your data. This usually saves a `.json` file (often named `Records.json`, `Timeline.json`, or similar) to your device's "Downloads" folder or a location you specify.
+        * **Transfer the JSON file**: Once exported to your phone, you'll need to transfer this JSON file to the computer where you intend to run the Python script (e.g., via USB cable, cloud storage like Google Drive/Dropbox, email, etc.).
+    * **Secondary Method: Google Takeout (May Not Provide Usable Data if Encrypted)**
+        * Previously, Google Takeout ([https://takeout.google.com/](https://takeout.google.com/)) was the primary way. However, if your Timeline data is end-to-end encrypted and stored on your device, Takeout might only provide an `archive_browser.html` file or an "Encrypted Backups.txt" notice, not the usable JSON data.
+        * If the in-app export fails or is unavailable, you *can still try* Google Takeout if end-to-end encryption and storing of Timeline data on your own physical device has not yet been configured. Only in this case:
+            1.  Go to Google Takeout.
+            2.  Deselect all products ("Deselect all").
+            3.  Scroll down and select **"Location History"**. Ensure the format is set to **JSON**.
+            4.  Proceed to create and download the export.
+            5.  If you receive a usable JSON file (e.g., `Records.json`, often within `Takeout/Location History/Semantic Location History/` or `Takeout/Location History/`), this can be used.
+    * **The script expects a single JSON file path for the `--timeline_json` argument.**
+
 4.  **Virtual Environment and Python Libraries**: Set up a virtual environment, then install the required libraries using pip:
     ```bash
     python3 -m venv venv        
